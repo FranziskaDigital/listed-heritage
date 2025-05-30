@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "inventoryId": "dehio1906bd2",
+    "lastUpdated": "2025-05-30"
+  },
+  "objects": [
+    {
+      "id": "dehio1906bd2_001",
+      "name": "Nikolaikirche",
+      "description": "Pfarrkirche der um 1230 gegr. Altstadt Berlin",
+      "address": "Nikolaikirchplatz, Berlin",
+      "coordinates": [52.516849, 13.407483],
+      "images": "POPPEL(1852)_p2.709_BERLIN_NIKOLAIKIRCHE.jpg",
+      "grundriss": "Nikolaikirche_Berlin_Grundriss.jpg",
+      "faksimile": {
+        "local": ["dehio1906bd2_facs_0035.jpg","dehio1906bd2_facs_0036.jpg"],
+        "external": {
+            "url": ["https://doi.org/10.11588/diglit.11053#0035", "https://doi.org/10.11588/diglit.11053#0036"]
+        },
+        "page": "S. 22–23"
+      },
+      "category": "Kirchenbau"
+    }
+  ]
+}
