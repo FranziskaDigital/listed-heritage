@@ -11,7 +11,7 @@
       "address": "Nikolaikirchplatz, Berlin",
       "coordinates": [52.516849, 13.407483],
       "images": "POPPEL(1852)_p2.709_BERLIN_NIKOLAIKIRCHE.jpg",
-      "grundriss": "Nikolaikirche_Berlin_Grundriss.jpg",
+      "grundriss": "plans/Nikolaikirche_Berlin_Grundriss.jpg",
       "faksimile": {
         "local": ["dehio1906bd2_facs_0035.jpg","dehio1906bd2_facs_0036.jpg"],
         "external": {

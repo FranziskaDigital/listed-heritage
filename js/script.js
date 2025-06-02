@@ -276,14 +276,14 @@ function showObjectDetail(objectId, inventoryId) {
         
         <div class="images-gallery">
             ${images.map(img => 
-                `<img src="${basePath}/objects/${img}" alt="${obj.name}" onerror="this.style.display='none'">`
+                `<img src="images/objects/${img}" alt="${obj.name}" onerror="this.style.display='none'">`
             ).join('')}
         </div>
         
         ${obj.grundriss ? `
             <div class="grundriss-section">
                 <h3>Grundriss</h3>
-                <img src="${basePath}/grundrisse/${obj.grundriss}" 
+                <img src="images/${obj.grundriss}" 
                      alt="Grundriss ${obj.name}" 
                      class="grundriss-image"
                      onerror="this.style.display='none'">
@@ -295,12 +295,12 @@ function showObjectDetail(objectId, inventoryId) {
                 <h3>Originalseite ${obj.faksimile.page || ''}</h3>
                 ${Array.isArray(obj.faksimile.local) ? 
                     obj.faksimile.local.map(faks => 
-                        `<img src="${basePath}/faksimile/${faks}" 
+                        `<img src="images/facsimiles/${faks}.jpg" 
                              alt="Faksimile ${obj.name}" 
                              class="faksimile-image"
                              onerror="this.style.display='none'">`
                     ).join('') :
-                    `<img src="${basePath}/faksimile/${obj.faksimile.local}" 
+                    `<img src="images/facsimiles/${obj.faksimile.local}" 
                          alt="Faksimile ${obj.name}" 
                          class="faksimile-image"
                          onerror="this.style.display='none'">`
@@ -309,9 +309,9 @@ function showObjectDetail(objectId, inventoryId) {
                     <div class="external-links">
                         ${Array.isArray(obj.faksimile.external.url) ?
                             obj.faksimile.external.url.map(url => 
-                                `<a href="${url}" target="_blank">→ Externe Quelle</a>`
+                                `<a href="${url}" target="_blank">→ Faksimile</a>`
                             ).join('<br>') :
-                            `<a href="${obj.faksimile.external.url}" target="_blank">→ Externe Quelle</a>`
+                            `<a href="${obj.faksimile.external.url}" target="_blank">→ Faksimile</a>`
                         }
                     </div>
                 ` : ''}
