@@ -12,18 +12,68 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
 });
 
+// Karte initialisieren
+function initMap() {
+    map = L.map('map').setView([52.5200, 13.4050], 11); // Berlin
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+}
+
 // Inventare laden
 async function loadInventories() {
     try {
         const response = await fetch('data/inventories.json');
         const data = await response.json();
-        inventories = data.inventories;
+        
+        // Inventare aus der verschachtelten Struktur extrahieren und normalisieren
+        inventories = data.inventories.map(inv => ({
+            id: inv.id,
+            name: inv.metadata?.bibliographic?.title?.main || 'Unbenanntes Inventar',
+            year: inv.metadata?.bibliographic?.publication?.year || 'Unbekannt',
+            icon: '🏛️', // Standard-Icon
+            color: getColorForInventory(inv.id),
+            dataFile: `${inv.id}.json`,
+            imageFolder: inv.id,
+            fullTitle: inv.metadata?.bibliographic?.title?.full,
+            subtitle: inv.metadata?.bibliographic?.title?.subtitle,
+            publisher: inv.metadata?.bibliographic?.publication?.publisher,
+            place: inv.metadata?.bibliographic?.publication?.place
+        }));
         
         populateInventorySelector();
         
     } catch (error) {
         console.error('Fehler beim Laden der Inventare:', error);
+        // Fallback: Demo-Inventar erstellen
+        createDemoInventory();
     }
+}
+
+// Farbe für Inventar basierend auf ID generieren
+function getColorForInventory(inventoryId) {
+    const colors = ['#8B4513', '#2F4F4F', '#8B0000', '#006400', '#4B0082', '#CD853F', '#4682B4', '#B22222'];
+    const hash = inventoryId.split('').reduce((a, b) => {
+        a = ((a << 5) - a) + b.charCodeAt(0);
+        return a & a;
+    }, 0);
+    return colors[Math.abs(hash) % colors.length];
+}
+
+// Demo-Inventar für Test ohne inventories.json
+function createDemoInventory() {
+    inventories = [{
+        id: "dehio1906bd2",
+        name: "Dehio Berlin 1906",
+        year: "1906",
+        icon: "🏛️",
+        color: "#8B4513",
+        dataFile: "dehio1906bd2.json",
+        imageFolder: "dehio1906bd2"
+    }];
+    
+    populateInventorySelector();
 }
 
 // Inventar-Auswahlmenü befüllen
@@ -34,6 +84,7 @@ function populateInventorySelector() {
         const option = document.createElement('option');
         option.value = inventory.id;
         option.textContent = `${inventory.icon} ${inventory.name} (${inventory.year})`;
+        option.title = inventory.fullTitle || inventory.name; // Tooltip mit vollem Titel
         select.appendChild(option);
     });
 }
@@ -116,7 +167,7 @@ function addMarkersForInventory(inventoryId, objects, color) {
         const marker = L.marker(obj.coordinates, { icon: customIcon })
             .bindPopup(`
                 <b>${obj.name}</b><br>
-                <small>${obj.inventoryName}</small><br>
+                <small>${obj.inventoryName || 'Unbekanntes Inventar'}</small><br>
                 ${obj.address}
             `)
             .on('click', () => showObjectDetail(obj.id, inventoryId));
@@ -126,6 +177,51 @@ function addMarkersForInventory(inventoryId, objects, color) {
     
     markerLayers[inventoryId] = layerGroup;
     layerGroup.addTo(map);
+}
+
+// Alle Marker löschen
+function clearAllMarkers() {
+    Object.values(markerLayers).forEach(layer => {
+        map.removeLayer(layer);
+    });
+    markerLayers = {};
+}
+
+// Objektliste anzeigen
+function displayObjectList(objects) {
+    const objectList = document.getElementById('object-list');
+    
+    const html = objects.map(obj => `
+        <div class="object-item" onclick="showObjectDetail('${obj.id}', '${obj.inventoryId}')">
+            <h4>${obj.name}</h4>
+            <p>${obj.address}</p>
+            <small>${obj.category || 'Kategorie unbekannt'}</small>
+        </div>
+    `).join('');
+    
+    objectList.innerHTML = `<h3>Objekte (${objects.length})</h3>${html}`;
+}
+
+// Aktive Inventare anzeigen
+function updateActiveInventoriesDisplay() {
+    const activeDiv = document.getElementById('active-inventories');
+    const activeInventories = Object.keys(markerLayers);
+    
+    if (activeInventories.length === 0) {
+        activeDiv.innerHTML = '<p>Keine Inventare aktiv</p>';
+        return;
+    }
+    
+    const html = activeInventories.map(inventoryId => {
+        const inventory = inventories.find(inv => inv.id === inventoryId);
+        return `
+            <div class="inventory-badge" style="background-color: ${inventory.color}">
+                ${inventory.icon} ${inventory.name}
+            </div>
+        `;
+    }).join('');
+    
+    activeDiv.innerHTML = `<h4>Aktive Inventare:</h4>${html}`;
 }
 
 // Event Listeners
@@ -143,11 +239,23 @@ function setupEventListeners() {
             displayAllInventories();
         } else {
             clearAllMarkers();
+            document.getElementById('object-list').innerHTML = '';
+            updateActiveInventoriesDisplay();
         }
+    });
+    
+    // Detail-View schließen
+    document.getElementById('close-detail').addEventListener('click', function() {
+        document.getElementById('detail-view').classList.add('hidden');
+    });
+    
+    // Suchfunktion
+    document.getElementById('search').addEventListener('input', function(e) {
+        searchObjects(e.target.value);
     });
 }
 
-// Objektdetails anzeigen (erweitert)
+// Objektdetails anzeigen
 function showObjectDetail(objectId, inventoryId) {
     const objects = allObjects[inventoryId];
     const obj = objects.find(o => o.id === objectId);
@@ -155,6 +263,9 @@ function showObjectDetail(objectId, inventoryId) {
     
     const inventory = inventories.find(inv => inv.id === inventoryId);
     const basePath = `images/${inventory.imageFolder}`;
+    
+    // Bilder-Array normalisieren
+    const images = Array.isArray(obj.images) ? obj.images : [obj.images];
     
     const detailHtml = `
         <div class="inventory-badge" style="background-color: ${inventory.color}">
@@ -164,17 +275,46 @@ function showObjectDetail(objectId, inventoryId) {
         <p><strong>Adresse:</strong> ${obj.address}</p>
         
         <div class="images-gallery">
-            ${obj.images.map(img => 
-                `<img src="${basePath}/objects/${img}" alt="${obj.name}">`
+            ${images.map(img => 
+                `<img src="${basePath}/objects/${img}" alt="${obj.name}" onerror="this.style.display='none'">`
             ).join('')}
         </div>
+        
+        ${obj.grundriss ? `
+            <div class="grundriss-section">
+                <h3>Grundriss</h3>
+                <img src="${basePath}/grundrisse/${obj.grundriss}" 
+                     alt="Grundriss ${obj.name}" 
+                     class="grundriss-image"
+                     onerror="this.style.display='none'">
+            </div>
+        ` : ''}
         
         ${obj.faksimile ? `
             <div class="faksimile-section">
                 <h3>Originalseite ${obj.faksimile.page || ''}</h3>
-                <img src="${basePath}/faksimile/${obj.faksimile.local}" 
-                     alt="Faksimile ${obj.name}" 
-                     class="faksimile-image">
+                ${Array.isArray(obj.faksimile.local) ? 
+                    obj.faksimile.local.map(faks => 
+                        `<img src="${basePath}/faksimile/${faks}" 
+                             alt="Faksimile ${obj.name}" 
+                             class="faksimile-image"
+                             onerror="this.style.display='none'">`
+                    ).join('') :
+                    `<img src="${basePath}/faksimile/${obj.faksimile.local}" 
+                         alt="Faksimile ${obj.name}" 
+                         class="faksimile-image"
+                         onerror="this.style.display='none'">`
+                }
+                ${obj.faksimile.external && obj.faksimile.external.url ? `
+                    <div class="external-links">
+                        ${Array.isArray(obj.faksimile.external.url) ?
+                            obj.faksimile.external.url.map(url => 
+                                `<a href="${url}" target="_blank">→ Externe Quelle</a>`
+                            ).join('<br>') :
+                            `<a href="${obj.faksimile.external.url}" target="_blank">→ Externe Quelle</a>`
+                        }
+                    </div>
+                ` : ''}
             </div>
         ` : ''}
         
@@ -189,4 +329,37 @@ function showObjectDetail(objectId, inventoryId) {
     
     document.getElementById('detail-content').innerHTML = detailHtml;
     document.getElementById('detail-view').classList.remove('hidden');
+    
+    // Zum Marker auf der Karte zoomen
+    map.setView(obj.coordinates, 16);
+}
+
+// Suchfunktion
+function searchObjects(searchTerm) {
+    if (!searchTerm.trim()) {
+        // Alle aktuell geladenen Objekte anzeigen
+        if (currentInventory && allObjects[currentInventory]) {
+            displayObjectList(allObjects[currentInventory]);
+        }
+        return;
+    }
+    
+    const term = searchTerm.toLowerCase();
+    let allCurrentObjects = [];
+    
+    // Sammle alle aktuell angezeigten Objekte
+    Object.keys(markerLayers).forEach(inventoryId => {
+        if (allObjects[inventoryId]) {
+            allCurrentObjects = allCurrentObjects.concat(allObjects[inventoryId]);
+        }
+    });
+    
+    const filteredObjects = allCurrentObjects.filter(obj => 
+        obj.name.toLowerCase().includes(term) ||
+        obj.description.toLowerCase().includes(term) ||
+        obj.address.toLowerCase().includes(term) ||
+        (obj.category && obj.category.toLowerCase().includes(term))
+    );
+    
+    displayObjectList(filteredObjects);
 }
