@@ -20,6 +20,23 @@
         "page": "S. 22–23"
       },
       "category": "Kirchenbau"
+    },
+    {
+      "id": "dehio1906bd2_002",
+      "name": "Marienkirche",
+      "description": "Gotische Hallenkirche aus dem 13. Jahrhundert, eine der ältesten Pfarrkirchen Berlins",
+      "address": "Karl-Liebknecht-Straße 8, Berlin",
+      "coordinates": [52.520803, 13.405026],
+      "images": "BERLIN_MARIENKIRCHE_1906.jpg",
+      "grundriss": "plans/Marienkirche_Berlin_Grundriss.jpg",
+      "faksimile": {
+        "local": ["dehio1906bd2_facs_0037.jpg"],
+        "external": {
+            "url": ["https://doi.org/10.11588/diglit.11053#0037"]
+        },
+        "page": "S. 24"
+      },
+      "category": "Kirchenbau"
     }
   ]
 }
