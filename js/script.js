@@ -276,7 +276,7 @@ function showObjectDetail(objectId, inventoryId) {
         
         <div class="images-gallery">
             ${images.map(img => 
-                `<img src="images/objects/${img}" alt="${obj.name}" onerror="this.style.display='none'">`
+                `<img src="${img.startsWith('http') ? img : 'images/objects/' + img}" alt="${obj.name}" onerror="this.style.display='none'"`
             ).join('')}
         </div>
         
@@ -291,32 +291,41 @@ function showObjectDetail(objectId, inventoryId) {
         ` : ''}
         
         ${obj.faksimile ? `
-            <div class="faksimile-section">
-                <h3>Originalseite ${obj.faksimile.page || ''}</h3>
-                ${Array.isArray(obj.faksimile.local) ? 
-                    obj.faksimile.local.map(faks => 
-                        `<img src="images/facsimiles/${faks}.jpg" 
-                             alt="Faksimile ${obj.name}" 
-                             class="faksimile-image"
-                             onerror="this.style.display='none'">`
-                    ).join('') :
-                    `<img src="images/facsimiles/${obj.faksimile.local}" 
-                         alt="Faksimile ${obj.name}" 
-                         class="faksimile-image"
-                         onerror="this.style.display='none'">`
+    <div class="faksimile-section">
+        <h3>Originalseite ${obj.faksimile.page || ''}</h3>
+        
+        ${obj.faksimile.local ? `
+            ${Array.isArray(obj.faksimile.local) ? 
+                obj.faksimile.local.map(faks => {
+                    const imageSrc = faks.startsWith('http') ? faks : `images/facsimiles/${faks}${faks.endsWith('.jpg') ? '' : '.jpg'}`;
+                    return `<img src="${imageSrc}" 
+                                alt="Faksimile ${obj.name}" 
+                                class="faksimile-image"
+                                onerror="this.style.display='none'">`;
+                }).join('') :
+                (() => {
+                    const imageSrc = obj.faksimile.local.startsWith('http') ? obj.faksimile.local : `images/facsimiles/${obj.faksimile.local}${obj.faksimile.local.endsWith('.jpg') ? '' : '.jpg'}`;
+                    return `<img src="${imageSrc}" 
+                                alt="Faksimile ${obj.name}" 
+                                class="faksimile-image"
+                                onerror="this.style.display='none'">`;
+                })()
+            }
+        ` : ''}
+        
+        ${obj.faksimile.external && obj.faksimile.external.url ? `
+            <div class="external-links">
+                <h4>Externe Faksimile-Links:</h4>
+                ${Array.isArray(obj.faksimile.external.url) ?
+                    obj.faksimile.external.url.map(url => 
+                        `<a href="${url}" target="_blank">→ Faksimile anzeigen</a>`
+                    ).join('<br>') :
+                    `<a href="${obj.faksimile.external.url}" target="_blank">→ Faksimile anzeigen</a>`
                 }
-                ${obj.faksimile.external && obj.faksimile.external.url ? `
-                    <div class="external-links">
-                        ${Array.isArray(obj.faksimile.external.url) ?
-                            obj.faksimile.external.url.map(url => 
-                                `<a href="${url}" target="_blank">→ Faksimile</a>`
-                            ).join('<br>') :
-                            `<a href="${obj.faksimile.external.url}" target="_blank">→ Faksimile</a>`
-                        }
-                    </div>
-                ` : ''}
             </div>
         ` : ''}
+    </div>
+` : ''}
         
         <div class="description">
             <h3>Beschreibung</h3>

@@ -24,17 +24,64 @@
     {
       "id": "dehio1906bd2_002",
       "name": "Marienkirche",
-      "description": "Gotische Hallenkirche aus dem 13. Jahrhundert, eine der ältesten Pfarrkirchen Berlins",
-      "address": "Karl-Liebknecht-Straße 8, Berlin",
-      "coordinates": [52.520803, 13.405026],
-      "images": "BERLIN_MARIENKIRCHE_1906.jpg",
-      "grundriss": "plans/Marienkirche_Berlin_Grundriss.jpg",
+      "description": "Pfarrkirche der um 1260 gegr. Neustadt Berlin",
+      "address": "Karl-Liebknecht-Straße 8, 10178 Berlin",
+      "coordinates": [52.520552, 13.407201],
+      "images": "https://upload.wikimedia.org/wikipedia/commons/b/b7/POPPEL%281852%29_p2.723_BERLIN%2C_NEUMARKT.jpg",
+      "faksimile": {
+        "local": ["dehio1906bd2_facs_0036.jpg", "dehio1906bd2_facs_0037.jpg"],
+        "external": {
+            "url": ["https://doi.org/10.11588/diglit.11053#0036","https://doi.org/10.11588/diglit.11053#0037"]
+        },
+        "page": "S. 23–24"
+      },
+      "category": "Kirchenbau"
+    },
+    {
+      "id": "dehio1906bd2_003",
+      "name": "Franziskanerkirche",
+      "description": "Frühgotischer Ziegelbau von E. 13. Jh., 1271 Schenkung des Grundstücks",
+      "address": "Klosterstraße 73a, 10179 Berlin",
+      "coordinates": [52.518404, 13.412542],
+      "images": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Berlin_Franziskaner_Klosterkirche_BusB.jpg",
       "faksimile": {
         "local": ["dehio1906bd2_facs_0037.jpg"],
         "external": {
             "url": ["https://doi.org/10.11588/diglit.11053#0037"]
         },
         "page": "S. 24"
+      },
+      "category": "Kirchenbau"
+    },
+    {
+      "id": "dehio1906bd2_004",
+      "name": "Heilig-Geist-Kapelle",
+      "description": "Frühgotischer Ziegelbau A. 14. Jh., 1905 mit dem Neubau der Handels-Hochschule verbunden",
+      "address": "Spandauer Straße 1, 10178 Berlin",
+      "coordinates": [52.520774, 13.403226],
+      "images": "https://upload.wikimedia.org/wikipedia/commons/7/77/M_Heiliggeistkapelle_Berlin_innen_1892.jpg",
+      "faksimile": {
+        "local": ["dehio1906bd2_facs_0037.jpg"],
+        "external": {
+            "url": ["https://doi.org/10.11588/diglit.11053#0037"]
+        },
+        "page": "S. 24"
+      },
+      "category": "Kirchenbau"
+    },
+    {
+      "id": "dehio1906bd2_005",
+      "name": "Petrikirche",
+      "description": "Pfarrkirche von Kölln",
+      "address": "Petriplatz, Berlin",
+      "coordinates": [52.513543, 13.404270],
+      "images": "https://upload.wikimedia.org/wikipedia/commons/0/06/PetrikircheBerlin-C%C3%B6llnL1140882_%282%29.jpg",
+      "faksimile": {
+        "local": ["dehio1906bd2_facs_0037.jpg","dehio1906bd2_facs_0038.jpg"],
+        "external": {
+            "url": ["https://doi.org/10.11588/diglit.11053#0037","https://doi.org/10.11588/diglit.11053#0038"]
+        },
+        "page": "S. 24–25"
       },
       "category": "Kirchenbau"
     }
