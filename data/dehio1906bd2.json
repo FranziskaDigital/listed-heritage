@@ -92,7 +92,7 @@
       "address": "Am Lustgarten, 10178 Berlin",
       "coordinates": [52.519109, 13.401065],
       "images": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Dom%2C_Berlin_1900.png",
-      "faksimile":{
+      "faksimile": {
         "local": ["dehio1906bd2_facs_0038.jpg"],
         "external": {
           "url": ["https://doi.org/10.11588/diglit.11053#0038"]
@@ -108,7 +108,7 @@
       "address": "Am Spittelmarkt, Berlin",
       "coordinates": [52.511511, 13.403025],
       "images": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Spittelmarkt%2C_Berlin_1868.jpg",
-      "faksimile":{
+      "faksimile": {
         "local": ["dehio1906bd2_facs_0038.jpg"],
         "external": {
           "url": ["https://doi.org/10.11588/diglit.11053#0038"]
