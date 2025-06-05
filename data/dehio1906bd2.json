@@ -8,7 +8,7 @@
       "id": "dehio1906bd2_001",
       "name": "Nikolaikirche",
       "description": "Pfarrkirche der um 1230 gegr. Altstadt Berlin",
-      "address": "Nikolaikirchplatz, Berlin",
+      "address": "Nikolaikirchplatz, 10178 Berlin",
       "coordinates": [52.516849, 13.407483],
       "images": "POPPEL(1852)_p2.709_BERLIN_NIKOLAIKIRCHE.jpg",
       "grundriss": "plans/Nikolaikirche_Berlin_Grundriss.jpg",
@@ -82,6 +82,38 @@
             "url": ["https://doi.org/10.11588/diglit.11053#0037","https://doi.org/10.11588/diglit.11053#0038"]
         },
         "page": "S. 24–25"
+      },
+      "category": "Kirchenbau"
+    },
+    {
+      "id": "dehio1906bd2_006",
+      "name": "Domkirche",
+      "description": "Dominikaner-Kirche, Schloß-Platz 1536 mit der Schloß-Kapelle zu einem Domstift vereinigt, 1747 abgebrochen und durch Neubau im Lustgarten ersetzt",
+      "address": "Am Lustgarten, 10178 Berlin",
+      "coordinates": [52.519109, 13.401065],
+      "images": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Dom%2C_Berlin_1900.png",
+      "faksimile":{
+        "local": ["dehio1906bd2_facs_0038.jpg"],
+        "external": {
+          "url": ["https://doi.org/10.11588/diglit.11053#0038"]
+        },
+        "page": "S. 25"
+      },
+      "category": "Kirchenbau"
+    },
+    {
+      "id": "dehio1906bd2_007",
+      "name": "Gertrauden-Kapelle",
+      "description": "Spätgotischer Ziegelbau",
+      "address": "Am Spittelmarkt, Berlin",
+      "coordinates": [52.511511, 13.403025],
+      "images": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Spittelmarkt%2C_Berlin_1868.jpg",
+      "faksimile":{
+        "local": ["dehio1906bd2_facs_0038.jpg"],
+        "external": {
+          "url": ["https://doi.org/10.11588/diglit.11053#0038"]
+        },
+        "page": "S. 25"
       },
       "category": "Kirchenbau"
     }
