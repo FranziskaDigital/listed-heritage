@@ -95,7 +95,7 @@
       "faksimile": {
         "local": ["dehio1906bd2_facs_0038.jpg"],
         "external": {
-          "url": ["https://doi.org/10.11588/diglit.11053#0038"]
+            "url": ["https://doi.org/10.11588/diglit.11053#0038"]
         },
         "page": "S. 25"
       },
@@ -111,7 +111,7 @@
       "faksimile": {
         "local": ["dehio1906bd2_facs_0038.jpg"],
         "external": {
-          "url": ["https://doi.org/10.11588/diglit.11053#0038"]
+            "url": ["https://doi.org/10.11588/diglit.11053#0038"]
         },
         "page": "S. 25"
       },
