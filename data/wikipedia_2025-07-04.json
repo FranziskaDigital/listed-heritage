@@ -13,6 +13,13 @@
       "images": "Apolda_Eiermannbau03.jpg",
       "grundriss": "plans/Eiermannbau_Grundriss.jpg",
       "models": "models/Eiermannbau.glb",
+      "faksimile": {
+        "local": [],
+        "external": {
+            "url": []
+        },
+        "page": ""
+      },
       "category": "Industriebau"
     }
   ]
