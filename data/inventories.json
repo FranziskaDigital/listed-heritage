@@ -134,7 +134,15 @@
     "validation_errors": [],
     "warnings": []
   }
-}
-
-    ]
+},
+{
+  "id": "wikipedia_2025-07-04",
+  "metadata": {
+  "bibliographic": {
+    "title": {
+      "main": "Liste der Kulturdenkmäler in Apolda",
+      "subtitle": "Kulturdenkmale der thüringischen Kreisstadt Apolda (Landkreis Weimarer Land) und ihrer Ortsteile aufgelistet (Stand: 26. April 2012)",
+      "full": "Liste der Kulturdenkmäler in Apolda. Kulturdenkmale der thüringischen Kreisstadt Apolda (Landkreis Weimarer Land) und ihrer Ortsteile aufgelistet (Stand: 26. April 2012)"
+    }
+   ]
 }
