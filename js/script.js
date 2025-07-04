@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initMap();
     loadInventories();
     setupEventListeners();
+    initThreeViewer();
 });
 
 // Karte initialisieren
@@ -27,12 +28,11 @@ async function loadInventories() {
         const response = await fetch('data/inventories.json');
         const data = await response.json();
         
-        // Inventare aus der verschachtelten Struktur extrahieren und normalisieren
         inventories = data.inventories.map(inv => ({
             id: inv.id,
             name: inv.metadata?.bibliographic?.title?.main || 'Unbenanntes Inventar',
             year: inv.metadata?.bibliographic?.publication?.year || 'Unbekannt',
-            icon: '🏛️', // Standard-Icon
+            icon: '🏛️',
             color: getColorForInventory(inv.id),
             dataFile: `${inv.id}.json`,
             imageFolder: inv.id,
@@ -46,12 +46,10 @@ async function loadInventories() {
         
     } catch (error) {
         console.error('Fehler beim Laden der Inventare:', error);
-        // Fallback: Demo-Inventar erstellen
         createDemoInventory();
     }
 }
 
-// Farbe für Inventar basierend auf ID generieren
 function getColorForInventory(inventoryId) {
     const colors = ['#8B4513', '#2F4F4F', '#8B0000', '#006400', '#4B0082', '#CD853F', '#4682B4', '#B22222'];
     const hash = inventoryId.split('').reduce((a, b) => {
@@ -61,7 +59,6 @@ function getColorForInventory(inventoryId) {
     return colors[Math.abs(hash) % colors.length];
 }
 
-// Demo-Inventar für Test ohne inventories.json
 function createDemoInventory() {
     inventories = [{
         id: "dehio1906bd2",
@@ -76,24 +73,20 @@ function createDemoInventory() {
     populateInventorySelector();
 }
 
-// Inventar-Auswahlmenü befüllen
 function populateInventorySelector() {
     const select = document.getElementById('inventory-select');
-    
+    select.innerHTML = '<option value="">-- Inventar wählen --</option>';
     inventories.forEach(inventory => {
         const option = document.createElement('option');
         option.value = inventory.id;
         option.textContent = `${inventory.icon} ${inventory.name} (${inventory.year})`;
-        option.title = inventory.fullTitle || inventory.name; // Tooltip mit vollem Titel
+        option.title = inventory.fullTitle || inventory.name;
         select.appendChild(option);
     });
 }
 
-// Spezifisches Inventar laden
 async function loadInventory(inventoryId) {
-    if (allObjects[inventoryId]) {
-        return allObjects[inventoryId];
-    }
+    if (allObjects[inventoryId]) return allObjects[inventoryId];
     
     const inventory = inventories.find(inv => inv.id === inventoryId);
     if (!inventory) return null;
@@ -102,7 +95,6 @@ async function loadInventory(inventoryId) {
         const response = await fetch(`data/${inventory.dataFile}`);
         const data = await response.json();
         
-        // Objekte mit Inventar-Info erweitern
         data.objects.forEach(obj => {
             obj.inventoryId = inventoryId;
             obj.inventoryName = inventory.name;
@@ -118,7 +110,6 @@ async function loadInventory(inventoryId) {
     }
 }
 
-// Inventar anzeigen
 async function displayInventory(inventoryId) {
     const objects = await loadInventory(inventoryId);
     if (!objects) return;
@@ -126,23 +117,17 @@ async function displayInventory(inventoryId) {
     currentInventory = inventoryId;
     const inventory = inventories.find(inv => inv.id === inventoryId);
     
-    // Bestehende Marker entfernen
     clearAllMarkers();
-    
-    // Neue Marker hinzufügen
     addMarkersForInventory(inventoryId, objects, inventory.color);
     
-    // Sidebar aktualisieren
     displayObjectList(objects);
     updateActiveInventoriesDisplay();
 }
 
-// Alle Inventare gleichzeitig anzeigen
 async function displayAllInventories() {
     clearAllMarkers();
     
-    for (let i = 0; i < inventories.length; i++) {
-        const inventory = inventories[i];
+    for (const inventory of inventories) {
         const objects = await loadInventory(inventory.id);
         if (objects) {
             addMarkersForInventory(inventory.id, objects, inventory.color);
@@ -152,7 +137,6 @@ async function displayAllInventories() {
     updateActiveInventoriesDisplay();
 }
 
-// Marker für ein Inventar hinzufügen
 function addMarkersForInventory(inventoryId, objects, color) {
     const layerGroup = L.layerGroup();
     
@@ -179,7 +163,6 @@ function addMarkersForInventory(inventoryId, objects, color) {
     layerGroup.addTo(map);
 }
 
-// Alle Marker löschen
 function clearAllMarkers() {
     Object.values(markerLayers).forEach(layer => {
         map.removeLayer(layer);
@@ -187,7 +170,6 @@ function clearAllMarkers() {
     markerLayers = {};
 }
 
-// Objektliste anzeigen
 function displayObjectList(objects) {
     const objectList = document.getElementById('object-list');
     
@@ -196,14 +178,13 @@ function displayObjectList(objects) {
             <h4>${obj.name}</h4>
             <p>${obj.address}</p>
             <small>${obj.category || 'Kategorie unbekannt'}</small>
-            ${obj.model3D ? '<span class="model-indicator">🏛️ 3D</span>' : ''}
+            ${has3DModel(obj) ? '<span class="model-indicator">🏛️ 3D</span>' : ''}
         </div>
     `).join('');
     
     objectList.innerHTML = `<h3>Objekte (${objects.length})</h3>${html}`;
 }
 
-// Aktive Inventare anzeigen
 function updateActiveInventoriesDisplay() {
     const activeDiv = document.getElementById('active-inventories');
     const activeInventories = Object.keys(markerLayers);
@@ -225,7 +206,6 @@ function updateActiveInventoriesDisplay() {
     activeDiv.innerHTML = `<h4>Aktive Inventare:</h4>${html}`;
 }
 
-// Event Listeners
 function setupEventListeners() {
     document.getElementById('inventory-select').addEventListener('change', function(e) {
         if (e.target.value) {
@@ -245,21 +225,19 @@ function setupEventListeners() {
         }
     });
     
-    // Detail-View schließen
     document.getElementById('close-detail').addEventListener('click', function() {
         document.getElementById('detail-view').classList.add('hidden');
+        // 3D-Viewer auch resetten
+        if(window.ThreeViewer) window.ThreeViewer.resetViewer();
     });
     
-    // Suchfunktion
     document.getElementById('search').addEventListener('input', function(e) {
         searchObjects(e.target.value);
     });
     
-    // 3D-Viewer Event Listeners
     setup3DViewerListeners();
 }
 
-// 3D-Viewer Event Listeners
 function setup3DViewerListeners() {
     const showImagesBtn = document.getElementById('show-images');
     const show3DBtn = document.getElementById('show-3d');
@@ -269,7 +247,7 @@ function setup3DViewerListeners() {
     if (showImagesBtn) {
         showImagesBtn.addEventListener('click', function() {
             showImagesBtn.classList.add('active');
-            show3DBtn.classList.remove('active');
+            if (show3DBtn) show3DBtn.classList.remove('active');
             imagesContainer.style.display = 'block';
             modelViewer.style.display = 'none';
         });
@@ -278,11 +256,10 @@ function setup3DViewerListeners() {
     if (show3DBtn) {
         show3DBtn.addEventListener('click', function() {
             show3DBtn.classList.add('active');
-            showImagesBtn.classList.remove('active');
+            if (showImagesBtn) showImagesBtn.classList.remove('active');
             imagesContainer.style.display = 'none';
             modelViewer.style.display = 'block';
             
-            // 3D-Viewer initialisieren, wenn noch nicht geschehen
             if (window.ThreeViewer && !window.ThreeViewer.isInitialized) {
                 window.ThreeViewer.initializeViewer();
             }
@@ -290,47 +267,35 @@ function setup3DViewerListeners() {
     }
 }
 
-// Prüfen ob 3D-Modell verfügbar ist
 function has3DModel(obj) {
     return obj.model3D || obj.model || obj.threeDModel;
 }
 
-// 3D-Modell-Pfad extrahieren
 function get3DModelPath(obj, inventoryId) {
     if (obj.model3D) {
-        // Wenn vollständiger Pfad oder URL
-        if (obj.model3D.startsWith('http') || obj.model3D.startsWith('/')) {
-            return obj.model3D;
-        }
-        // Relativer Pfad
-        return `models/${inventoryId}/${obj.model3D}`;
+        if (obj.model3D.startsWith('http') || obj.model3D.startsWith('/')) return obj.model3D;
+        return `images/models/${inventoryId}/${obj.model3D}`;
     }
-    
     if (obj.model) {
-        return obj.model.startsWith('http') ? obj.model : `models/${inventoryId}/${obj.model}`;
+        return obj.model.startsWith('http') ? obj.model : `images/models/${inventoryId}/${obj.model}`;
     }
-    
     if (obj.threeDModel) {
-        return obj.threeDModel.startsWith('http') ? obj.threeDModel : `models/${inventoryId}/${obj.threeDModel}`;
+        return obj.threeDModel.startsWith('http') ? obj.threeDModel : `images/models/${inventoryId}/${obj.threeDModel}`;
     }
-    
     return null;
 }
 
-// Objektdetails anzeigen (erweiterte Version)
 function showObjectDetail(objectId, inventoryId) {
     const objects = allObjects[inventoryId];
+    if (!objects) return;
     const obj = objects.find(o => o.id === objectId);
     if (!obj) return;
     
     const inventory = inventories.find(inv => inv.id === inventoryId);
-    const basePath = `images/${inventory.imageFolder}`;
     
-    // Prüfen ob 3D-Modell verfügbar
     const hasModel = has3DModel(obj);
     const modelPath = hasModel ? get3DModelPath(obj, inventoryId) : null;
     
-    // Bilder-Array normalisieren
     const images = Array.isArray(obj.images) ? obj.images : [obj.images];
     
     const detailHtml = `
@@ -340,60 +305,46 @@ function showObjectDetail(objectId, inventoryId) {
         <h2>${obj.name}</h2>
         <p><strong>Adresse:</strong> ${obj.address}</p>
         
-        <!-- View Toggle Buttons -->
         <div class="view-toggle">
             <button id="show-images" class="active">📷 Bilder</button>
             ${hasModel ? '<button id="show-3d">🏛️ 3D-Modell</button>' : ''}
         </div>
         
-        <!-- Bilder Container -->
         <div id="images-container">
             <div class="images-gallery">
                 ${images.map(img => 
-                    `<img src="${img.startsWith('http') ? img : 'images/objects/' + img}" alt="${obj.name}" onerror="this.style.display='none'"`
+                    `<img src="${img.startsWith('http') ? img : 'images/objects/' + img}" alt="${obj.name}" onerror="this.style.display='none'">`
                 ).join('')}
             </div>
             
             ${obj.grundriss ? `
                 <div class="grundriss-section">
                     <h3>Grundriss</h3>
-                    <img src="images/${obj.grundriss}" 
-                         alt="Grundriss ${obj.name}" 
-                         class="grundriss-image"
-                         onerror="this.style.display='none'">
+                    <img src="images/${obj.grundriss}" alt="Grundriss ${obj.name}" class="grundriss-image" onerror="this.style.display='none'">
                 </div>
             ` : ''}
             
             ${obj.faksimile ? `
                 <div class="faksimile-section">
                     <h3>Originalseite ${obj.faksimile.page || ''}</h3>
-                    
-                    ${obj.faksimile.local ? `
-                        ${Array.isArray(obj.faksimile.local) ? 
+                    ${obj.faksimile.local ? 
+                        (Array.isArray(obj.faksimile.local) ? 
                             obj.faksimile.local.map(faks => {
                                 const imageSrc = faks.startsWith('http') ? faks : `images/facsimiles/${faks}${faks.endsWith('.jpg') ? '' : '.jpg'}`;
-                                return `<img src="${imageSrc}" 
-                                            alt="Faksimile ${obj.name}" 
-                                            class="faksimile-image"
-                                            onerror="this.style.display='none'">`;
+                                return `<img src="${imageSrc}" alt="Faksimile ${obj.name}" class="faksimile-image" onerror="this.style.display='none'>`;
                             }).join('') :
                             (() => {
                                 const imageSrc = obj.faksimile.local.startsWith('http') ? obj.faksimile.local : `images/facsimiles/${obj.faksimile.local}${obj.faksimile.local.endsWith('.jpg') ? '' : '.jpg'}`;
-                                return `<img src="${imageSrc}" 
-                                            alt="Faksimile ${obj.name}" 
-                                            class="faksimile-image"
-                                            onerror="this.style.display='none'">`;
+                                return `<img src="${imageSrc}" alt="Faksimile ${obj.name}" class="faksimile-image" onerror="this.style.display='none'>`;
                             })()
-                        }
-                    ` : ''}
-                    
+                        )
+                        : ''
+                    }
                     ${obj.faksimile.external && obj.faksimile.external.url ? `
                         <div class="external-links">
                             <h4>Externe Faksimile-Links:</h4>
                             ${Array.isArray(obj.faksimile.external.url) ?
-                                obj.faksimile.external.url.map(url => 
-                                    `<a href="${url}" target="_blank">→ Faksimile anzeigen</a>`
-                                ).join('<br>') :
+                                obj.faksimile.external.url.map(url => `<a href="${url}" target="_blank">→ Faksimile anzeigen</a>`).join('') :
                                 `<a href="${obj.faksimile.external.url}" target="_blank">→ Faksimile anzeigen</a>`
                             }
                         </div>
@@ -402,77 +353,149 @@ function showObjectDetail(objectId, inventoryId) {
             ` : ''}
         </div>
         
-        <!-- 3D-Modell Container -->
-        ${hasModel ? `
-            <div id="model-viewer" style="display: none;">
-                <div class="loading-indicator" id="loading-indicator">
-                    <p>3D-Modell wird geladen...</p>
-                </div>
-                <div class="model-controls">
-                    <button id="reset-view" title="Ansicht zurücksetzen">🔄</button>
-                    <button id="wireframe-toggle" title="Wireframe an/aus">📐</button>
-                    <button id="fullscreen-toggle" title="Vollbild">⛶</button>
-                </div>
-                <div class="model-info" id="model-info">
-                    Maus: Drehen | Scrollrad: Zoomen | Rechtsklick: Verschieben
-                </div>
-            </div>
-        ` : ''}
-        
-        <div class="description">
-            <h3>Beschreibung</h3>
-            <p>${obj.description}</p>
-        </div>
-        
-        ${obj.category ? `<p><strong>Kategorie:</strong> ${obj.category}</p>` : ''}
-        ${obj.period ? `<p><strong>Epoche:</strong> ${obj.period}</p>` : ''}
-        ${hasModel ? `<p><strong>3D-Modell:</strong> Verfügbar</p>` : ''}
+        <div id="model-viewer" style="display:none; width: 100%; height: 400px; margin-top: 10px;"></div>
     `;
     
-    document.getElementById('detail-content').innerHTML = detailHtml;
-    document.getElementById('detail-view').classList.remove('hidden');
+    const detailView = document.getElementById('detail-view');
+    detailView.innerHTML = detailHtml;
+    detailView.classList.remove('hidden');
     
-    // Event Listeners für die neuen Buttons einrichten
     setup3DViewerListeners();
     
-    // 3D-Modell laden wenn verfügbar
-    if (hasModel && window.ThreeViewer && modelPath) {
-        // Verzögerung um sicherzustellen, dass DOM bereit ist
-        setTimeout(() => {
+    if (hasModel) {
+        // Nach dem Rendern den 3D-Button event listener aktivieren
+        document.getElementById('show-3d').addEventListener('click', () => {
+            document.getElementById('show-3d').classList.add('active');
+            document.getElementById('show-images').classList.remove('active');
+            document.getElementById('images-container').style.display = 'none';
+            document.getElementById('model-viewer').style.display = 'block';
             window.ThreeViewer.loadModel(modelPath);
-        }, 100);
+        });
     }
-    
-    // Zum Marker auf der Karte zoomen
-    map.setView(obj.coordinates, 16);
 }
 
-// Suchfunktion
-function searchObjects(searchTerm) {
-    if (!searchTerm.trim()) {
-        // Alle aktuell geladenen Objekte anzeigen
-        if (currentInventory && allObjects[currentInventory]) {
-            displayObjectList(allObjects[currentInventory]);
-        }
-        return;
+// Suche nach Objekten über alle Inventare
+function searchObjects(term) {
+    term = term.toLowerCase();
+    let results = [];
+    
+    for (const invId in allObjects) {
+        const objs = allObjects[invId];
+        results = results.concat(objs.filter(o =>
+            o.name.toLowerCase().includes(term) ||
+            (o.address && o.address.toLowerCase().includes(term))
+        ));
     }
     
-    const term = searchTerm.toLowerCase();
-    let allCurrentObjects = [];
-    
-    // Sammle alle aktuell angezeigten Objekte
-    Object.keys(markerLayers).forEach(inventoryId => {
-        if (allObjects[inventoryId]) {
-            allCurrentObjects = allCurrentObjects.concat(allObjects[inventoryId]);
+    if (results.length > 0) {
+        displayObjectList(results);
+    } else {
+        document.getElementById('object-list').innerHTML = `<p>Keine Objekte gefunden für "${term}".</p>`;
+    }
+}
+
+// --- Three.js 3D Viewer Setup ---
+function initThreeViewer() {
+    window.ThreeViewer = (function(){
+        let scene, camera, renderer, controls;
+        let model = null;
+        let container = document.getElementById('model-viewer');
+        let isInitialized = false;
+        
+        // Drei.js Module laden
+        async function loadThreeModules() {
+            if (window.THREE) return;
+            // Dynamisches Laden ist hier beispielhaft, Three.js muss über <script> eingebunden sein.
+            // Falls nicht, hier kann man CDN laden, oder statisch <script src="...three.min.js"> verwenden.
         }
-    });
-    
-    const filteredObjects = allCurrentObjects.filter(obj => 
-        obj.name.toLowerCase().includes(term) ||
-        obj.description.toLowerCase().includes(term) ||
-        obj.address.toLowerCase().includes(term) ||
-        (obj.category && obj.category.toLowerCase().includes(term))
-    );
-    
-    displayObjectList(filteredObjects);
+        
+        function initializeViewer() {
+            if (isInitialized) return;
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf0f0f0);
+            
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 2, 5);
+            
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+            
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.target.set(0, 1, 0);
+            controls.update();
+            
+            // Licht
+            const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
+            hemiLight.position.set(0, 20, 0);
+            scene.add(hemiLight);
+            
+            const dirLight = new THREE.DirectionalLight(0xffffff);
+            dirLight.position.set(3, 10, 10);
+            scene.add(dirLight);
+            
+            isInitialized = true;
+            animate();
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            if (controls) controls.update();
+            if (renderer && scene && camera) renderer.render(scene, camera);
+        }
+        
+        function clearModel() {
+            if (model) {
+                scene.remove(model);
+                model.traverse(child => {
+                    if (child.geometry) child.geometry.dispose();
+                    if (child.material) {
+                        if (Array.isArray(child.material)) {
+                            child.material.forEach(m => m.dispose());
+                        } else {
+                            child.material.dispose();
+                        }
+                    }
+                });
+                model = null;
+            }
+        }
+        
+        function loadModel(path) {
+            if (!isInitialized) initializeViewer();
+            clearModel();
+            const loader = new THREE.GLTFLoader();
+            loader.load(path, gltf => {
+                model = gltf.scene;
+                scene.add(model);
+                // Zentrieren
+                const box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                model.position.sub(center);
+                
+                // Kamera Position anpassen
+                const size = box.getSize(new THREE.Vector3()).length();
+                camera.position.set(size, size, size);
+                controls.target.set(0, 0, 0);
+                controls.update();
+            }, undefined, error => {
+                console.error('3D-Modell konnte nicht geladen werden:', error);
+            });
+        }
+        
+        function resetViewer() {
+            clearModel();
+            if (renderer && container) {
+                while (container.firstChild) container.removeChild(container.firstChild);
+            }
+            isInitialized = false;
+        }
+        
+        return {
+            initializeViewer,
+            loadModel,
+            resetViewer,
+            get isInitialized() { return isInitialized; }
+        };
+    })();
 }
