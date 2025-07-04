@@ -1,18 +1,19 @@
 {
-    "metadata": {
-      "inventoryId": "wikipedia_2025-07-04",
-      "lastUpdated": "2025-07-04"
-    },
-    "objects": [
-      {
-        "id": "wikipedia_2025-07-04_001",
-        "name": "Feuerlöschgerätewerk",
-        "description": "Wohn- und Fabrikgebäude, ehemaliges Feuerlöschgerätewerk, bekannt als Eiermann-Bau",
-        "address": "Auenstraße 9/11/13",
-        "coordinates": [51.031995, 11.517615],
-        "images": "Apolda_Eiermannbau03.jpg",
-        "grundriss": "plans/Eiermannbau_Grundriss.jpg",
-        "models": "models/Eiermannbau.glb"
-        },
-        "category": "Industriebau"
-      }
+  "metadata": {
+    "inventoryId": "wikipedia_2025-07-04",
+    "lastUpdated": "2025-07-04"
+  },
+  "objects": [
+    {
+      "id": "wikipedia_2025-07-04_001",
+      "name": "Feuerlöschgerätewerk",
+      "description": "Wohn- und Fabrikgebäude, ehemaliges Feuerlöschgerätewerk, bekannt als Eiermann-Bau",
+      "address": "Auenstraße 9/11/13",
+      "coordinates": [51.031995, 11.517615],
+      "images": "Apolda_Eiermannbau03.jpg",
+      "grundriss": "plans/Eiermannbau_Grundriss.jpg",
+      "models": "models/Eiermannbau.glb",
+      "category": "Industriebau"
+    }
+  ]
+}
