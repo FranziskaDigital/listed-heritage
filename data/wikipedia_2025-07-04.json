@@ -12,7 +12,7 @@
       "coordinates": [51.031995, 11.517615],
       "images": "Apolda_Eiermannbau03.jpg",
       "grundriss": "plans/Eiermannbau_Grundriss.jpg",
-      "models": "models/Eiermannbau.glb",
+      "models": "images/models/Eiermannbau.glb",
       "faksimile": {
         "local": [],
         "external": {
