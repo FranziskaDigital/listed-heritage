@@ -143,8 +143,133 @@
       "main": "Liste der Kulturdenkmäler in Apolda",
       "subtitle": "Kulturdenkmale der thüringischen Kreisstadt Apolda (Landkreis Weimarer Land) und ihrer Ortsteile aufgelistet (Stand: 26. April 2012)",
       "full": "Liste der Kulturdenkmäler in Apolda. Kulturdenkmale der thüringischen Kreisstadt Apolda (Landkreis Weimarer Land) und ihrer Ortsteile aufgelistet (Stand: 26. April 2012)"
+    },
+    "creators": [
+      {
+        "name": "Dehio, Georg",
+        "role": "author",
+        "gnd_id": null,
+        "birth_year": null,
+        "death_year": null
+      }
+    ],
+    "publication": {
+      "year": 1906,
+      "place": "Berlin",
+      "publisher": "Ernst Wasmuth",
+      "edition": "1. Auflage"
+    },
+    "identifiers": {
+      "isbn": null,
+      "issn": null,
+      "urn": "urn:nbn:de:bsz:16-diglit-xxxxx",
+      "doi": null,
+      "catalog_id": "dehio1906bd2"
+    },
+    "physical_description": {
+      "pages": null,
+      "volumes": 2,
+      "current_volume": 2,
+      "format": "8°",
+      "dimensions": null
+    },
+    "subjects": [
+      "Kunstgeschichte",
+      "Denkmalpflege",
+      "Deutschland",
+      "Mitteldeutschland"
+    ],
+    "language": "ger",
+    "abstract": null
+  },
+  "digitization": {
+    "institution": {
+      "name": "Universitätsbibliothek Heidelberg",
+      "code": "UB Heidelberg",
+      "country": "DE",
+      "url": "https://www.ub.uni-heidelberg.de/"
+    },
+    "project": {
+      "name": null,
+      "funding": null
+    },
+    "technical": {
+      "digitization_date": null,
+      "scan_resolution": null,
+      "color_depth": null,
+      "file_format": "image/jpeg",
+      "compression": null,
+      "ocr_available": false,
+      "ocr_software": null
+    },
+    "access": {
+      "rights": "public domain",
+      "license": "CC0",
+      "restrictions": null,
+      "url": "https://digi.ub.uni-heidelberg.de/diglit/dehio1906bd2"
     }
+  },
+  "structure": {
+    "logical_structure": [
+      {
+        "id": "div1",
+        "type": "title_page",
+        "label": "Titelblatt",
+        "page_start": 1,
+        "page_end": 1
+      },
+      {
+        "id": "div2",
+        "type": "table_of_contents",
+        "label": "Inhaltsverzeichnis",
+        "page_start": 2,
+        "page_end": 5
+      },
+      {
+        "id": "div3",
+        "type": "chapter",
+        "label": "Kapitel 1",
+        "page_start": 6,
+        "page_end": 50,
+        "children": []
+      }
+    ],
+    "physical_structure": {
+      "total_pages": null,
+      "page_sequence": [],
+      "missing_pages": [],
+      "blank_pages": []
+    }
+  },
+  "mets_info": {
+    "mets_version": "1.12",
+    "profile": "http://www.loc.gov/mets/profiles/...",
+    "creation_date": null,
+    "last_modified": null,
+    "creator_software": null,
+    "file_location": "https://digi.ub.uni-heidelberg.de/diglitData/mets/dehio1906bd2.xml"
+  },
+  "quality_control": {
+    "completeness_check": null,
+    "quality_assessment": null,
+    "validation_status": null,
+    "notes": []
   }
-  }
-  ]
+},
+"files": {
+  "master_images": [],
+  "derivative_images": [],
+  "text_files": [],
+  "other_files": []
+},
+"processing": {
+  "extraction_date": "2025-05-30T10:00:00Z",
+  "extraction_software": "custom_mets_parser",
+  "validation_errors": [],
+  "warnings": []
+    }
+}
+}
+}
+]
 }
