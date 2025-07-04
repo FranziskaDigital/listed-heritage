@@ -1,275 +1,258 @@
-
 {
-    "inventories": [
-{
-    "id": "dehio1906bd2",
-    "metadata": {
-    "bibliographic": {
-      "title": {
-        "main": "Handbuch der deutschen Kunstdenkmäler",
-        "subtitle": "Band 2: Mitteldeutschland",
-        "full": "Handbuch der deutschen Kunstdenkmäler: Band 2: Mitteldeutschland"
-      },
-      "creators": [
-        {
-          "name": "Dehio, Georg",
-          "role": "author",
-          "gnd_id": null,
-          "birth_year": null,
-          "death_year": null
-        }
-      ],
-      "publication": {
-        "year": 1906,
-        "place": "Berlin",
-        "publisher": "Ernst Wasmuth",
-        "edition": "1. Auflage"
-      },
-      "identifiers": {
-        "isbn": null,
-        "issn": null,
-        "urn": "urn:nbn:de:bsz:16-diglit-xxxxx",
-        "doi": null,
-        "catalog_id": "dehio1906bd2"
-      },
-      "physical_description": {
-        "pages": null,
-        "volumes": 2,
-        "current_volume": 2,
-        "format": "8°",
-        "dimensions": null
-      },
-      "subjects": [
-        "Kunstgeschichte",
-        "Denkmalpflege",
-        "Deutschland",
-        "Mitteldeutschland"
-      ],
-      "language": "ger",
-      "abstract": null
-    },
-    "digitization": {
-      "institution": {
-        "name": "Universitätsbibliothek Heidelberg",
-        "code": "UB Heidelberg",
-        "country": "DE",
-        "url": "https://www.ub.uni-heidelberg.de/"
-      },
-      "project": {
-        "name": null,
-        "funding": null
-      },
-      "technical": {
-        "digitization_date": null,
-        "scan_resolution": null,
-        "color_depth": null,
-        "file_format": "image/jpeg",
-        "compression": null,
-        "ocr_available": false,
-        "ocr_software": null
-      },
-      "access": {
-        "rights": "public domain",
-        "license": "CC0",
-        "restrictions": null,
-        "url": "https://digi.ub.uni-heidelberg.de/diglit/dehio1906bd2"
-      }
-    },
-    "structure": {
-      "logical_structure": [
-        {
-          "id": "div1",
-          "type": "title_page",
-          "label": "Titelblatt",
-          "page_start": 1,
-          "page_end": 1
+  "inventories": [
+    {
+      "id": "dehio1906bd2",
+      "metadata": {
+        "bibliographic": {
+          "title": {
+            "main": "Handbuch der deutschen Kunstdenkmäler",
+            "subtitle": "Band 2: Mitteldeutschland",
+            "full": "Handbuch der deutschen Kunstdenkmäler: Band 2: Mitteldeutschland"
+          },
+          "creators": [
+            {
+              "name": "Dehio, Georg",
+              "role": "author",
+              "gnd_id": null,
+              "birth_year": null,
+              "death_year": null
+            }
+          ],
+          "publication": {
+            "year": 1906,
+            "place": "Berlin",
+            "publisher": "Ernst Wasmuth",
+            "edition": "1. Auflage"
+          },
+          "identifiers": {
+            "isbn": null,
+            "issn": null,
+            "urn": "urn:nbn:de:bsz:16-diglit-xxxxx",
+            "doi": null,
+            "catalog_id": "dehio1906bd2"
+          },
+          "physical_description": {
+            "pages": null,
+            "volumes": 2,
+            "current_volume": 2,
+            "format": "8°",
+            "dimensions": null
+          },
+          "subjects": [
+            "Kunstgeschichte",
+            "Denkmalpflege",
+            "Deutschland",
+            "Mitteldeutschland"
+          ],
+          "language": "ger",
+          "abstract": null
         },
-        {
-          "id": "div2",
-          "type": "table_of_contents",
-          "label": "Inhaltsverzeichnis",
-          "page_start": 2,
-          "page_end": 5
+        "digitization": {
+          "institution": {
+            "name": "Universitätsbibliothek Heidelberg",
+            "code": "UB Heidelberg",
+            "country": "DE",
+            "url": "https://www.ub.uni-heidelberg.de/"
+          },
+          "project": {
+            "name": null,
+            "funding": null
+          },
+          "technical": {
+            "digitization_date": null,
+            "scan_resolution": null,
+            "color_depth": null,
+            "file_format": "image/jpeg",
+            "compression": null,
+            "ocr_available": false,
+            "ocr_software": null
+          },
+          "access": {
+            "rights": "public domain",
+            "license": "CC0",
+            "restrictions": null,
+            "url": "https://digi.ub.uni-heidelberg.de/diglit/dehio1906bd2"
+          }
         },
-        {
-          "id": "div3",
-          "type": "chapter",
-          "label": "Kapitel 1",
-          "page_start": 6,
-          "page_end": 50,
-          "children": []
+        "structure": {
+          "logical_structure": [
+            {
+              "id": "div1",
+              "type": "title_page",
+              "label": "Titelblatt",
+              "page_start": 1,
+              "page_end": 1
+            },
+            {
+              "id": "div2",
+              "type": "table_of_contents",
+              "label": "Inhaltsverzeichnis",
+              "page_start": 2,
+              "page_end": 5
+            },
+            {
+              "id": "div3",
+              "type": "chapter",
+              "label": "Kapitel 1",
+              "page_start": 6,
+              "page_end": 50,
+              "children": []
+            }
+          ],
+          "physical_structure": {
+            "total_pages": null,
+            "page_sequence": [],
+            "missing_pages": [],
+            "blank_pages": []
+          }
+        },
+        "mets_info": {
+          "mets_version": "1.12",
+          "profile": "http://www.loc.gov/mets/profiles/...",
+          "creation_date": null,
+          "last_modified": null,
+          "creator_software": null,
+          "file_location": "https://digi.ub.uni-heidelberg.de/diglitData/mets/dehio1906bd2.xml"
+        },
+        "quality_control": {
+          "completeness_check": null,
+          "quality_assessment": null,
+          "validation_status": null,
+          "notes": []
         }
-      ],
-      "physical_structure": {
-        "total_pages": null,
-        "page_sequence": [],
-        "missing_pages": [],
-        "blank_pages": []
-      }
-    },
-    "mets_info": {
-      "mets_version": "1.12",
-      "profile": "http://www.loc.gov/mets/profiles/...",
-      "creation_date": null,
-      "last_modified": null,
-      "creator_software": null,
-      "file_location": "https://digi.ub.uni-heidelberg.de/diglitData/mets/dehio1906bd2.xml"
-    },
-    "quality_control": {
-      "completeness_check": null,
-      "quality_assessment": null,
-      "validation_status": null,
-      "notes": []
-    }
-  },
-  "files": {
-    "master_images": [],
-    "derivative_images": [],
-    "text_files": [],
-    "other_files": []
-  },
-  "processing": {
-    "extraction_date": "2025-05-30T10:00:00Z",
-    "extraction_software": "custom_mets_parser",
-    "validation_errors": [],
-    "warnings": []
-  }
-},
-{
-  "id": "wikipedia_2025-07-04",
-  "metadata": {
-  "bibliographic": {
-    "title": {
-      "main": "Liste der Kulturdenkmäler in Apolda",
-      "subtitle": "Kulturdenkmale der thüringischen Kreisstadt Apolda (Landkreis Weimarer Land) und ihrer Ortsteile aufgelistet (Stand: 26. April 2012)",
-      "full": "Liste der Kulturdenkmäler in Apolda. Kulturdenkmale der thüringischen Kreisstadt Apolda (Landkreis Weimarer Land) und ihrer Ortsteile aufgelistet (Stand: 26. April 2012)"
-    },
-    "creators": [
-      {
-        "name": "Dehio, Georg",
-        "role": "author",
-        "gnd_id": null,
-        "birth_year": null,
-        "death_year": null
-      }
-    ],
-    "publication": {
-      "year": 1906,
-      "place": "Berlin",
-      "publisher": "Ernst Wasmuth",
-      "edition": "1. Auflage"
-    },
-    "identifiers": {
-      "isbn": null,
-      "issn": null,
-      "urn": "urn:nbn:de:bsz:16-diglit-xxxxx",
-      "doi": null,
-      "catalog_id": "dehio1906bd2"
-    },
-    "physical_description": {
-      "pages": null,
-      "volumes": 2,
-      "current_volume": 2,
-      "format": "8°",
-      "dimensions": null
-    },
-    "subjects": [
-      "Kunstgeschichte",
-      "Denkmalpflege",
-      "Deutschland",
-      "Mitteldeutschland"
-    ],
-    "language": "ger",
-    "abstract": null
-  },
-  "digitization": {
-    "institution": {
-      "name": "Universitätsbibliothek Heidelberg",
-      "code": "UB Heidelberg",
-      "country": "DE",
-      "url": "https://www.ub.uni-heidelberg.de/"
-    },
-    "project": {
-      "name": null,
-      "funding": null
-    },
-    "technical": {
-      "digitization_date": null,
-      "scan_resolution": null,
-      "color_depth": null,
-      "file_format": "image/jpeg",
-      "compression": null,
-      "ocr_available": false,
-      "ocr_software": null
-    },
-    "access": {
-      "rights": "public domain",
-      "license": "CC0",
-      "restrictions": null,
-      "url": "https://digi.ub.uni-heidelberg.de/diglit/dehio1906bd2"
-    }
-  },
-  "structure": {
-    "logical_structure": [
-      {
-        "id": "div1",
-        "type": "title_page",
-        "label": "Titelblatt",
-        "page_start": 1,
-        "page_end": 1
       },
-      {
-        "id": "div2",
-        "type": "table_of_contents",
-        "label": "Inhaltsverzeichnis",
-        "page_start": 2,
-        "page_end": 5
+      "files": {
+        "master_images": [],
+        "derivative_images": [],
+        "text_files": [],
+        "other_files": []
       },
-      {
-        "id": "div3",
-        "type": "chapter",
-        "label": "Kapitel 1",
-        "page_start": 6,
-        "page_end": 50,
-        "children": []
+      "processing": {
+        "extraction_date": "2025-05-30T10:00:00Z",
+        "extraction_software": "custom_mets_parser",
+        "validation_errors": [],
+        "warnings": []
       }
-    ],
-    "physical_structure": {
-      "total_pages": null,
-      "page_sequence": [],
-      "missing_pages": [],
-      "blank_pages": []
+    },
+    {
+      "id": "wikipedia_2025-07-04",
+      "metadata": {
+        "bibliographic": {
+          "title": {
+            "main": "Liste der Kulturdenkmäler in Apolda",
+            "subtitle": "Kulturdenkmale der thüringischen Kreisstadt Apolda (Landkreis Weimarer Land) und ihrer Ortsteile aufgelistet (Stand: 26. April 2012)",
+            "full": "Liste der Kulturdenkmäler in Apolda. Kulturdenkmale der thüringischen Kreisstadt Apolda (Landkreis Weimarer Land) und ihrer Ortsteile aufgelistet (Stand: 26. April 2012)"
+          },
+          "creators": [
+            {
+              "name": "Wikipedia Contributors",
+              "role": "author",
+              "gnd_id": null,
+              "birth_year": null,
+              "death_year": null
+            }
+          ],
+          "publication": {
+            "year": 2025,
+            "place": "Online",
+            "publisher": "Wikipedia",
+            "edition": "Online-Version"
+          },
+          "identifiers": {
+            "isbn": null,
+            "issn": null,
+            "urn": null,
+            "doi": null,
+            "catalog_id": "wikipedia_2025-07-04"
+          },
+          "physical_description": {
+            "pages": null,
+            "volumes": 1,
+            "current_volume": 1,
+            "format": "digital",
+            "dimensions": null
+          },
+          "subjects": [
+            "Kunstgeschichte",
+            "Denkmalpflege",
+            "Deutschland",
+            "Apolda",
+            "Thüringen"
+          ],
+          "language": "ger",
+          "abstract": "Liste der Kulturdenkmäler in der Stadt Apolda und ihren Ortsteilen"
+        },
+        "digitization": {
+          "institution": {
+            "name": "Wikipedia",
+            "code": "Wikipedia",
+            "country": "DE",
+            "url": "https://de.wikipedia.org/"
+          },
+          "project": {
+            "name": "Wikipedia",
+            "funding": "Community"
+          },
+          "technical": {
+            "digitization_date": "2025-07-04",
+            "scan_resolution": null,
+            "color_depth": null,
+            "file_format": "text/html",
+            "compression": null,
+            "ocr_available": false,
+            "ocr_software": null
+          },
+          "access": {
+            "rights": "CC BY-SA 4.0",
+            "license": "CC BY-SA 4.0",
+            "restrictions": null,
+            "url": "https://de.wikipedia.org/wiki/Liste_der_Kulturdenkmäler_in_Apolda"
+          }
+        },
+        "structure": {
+          "logical_structure": [
+            {
+              "id": "div1",
+              "type": "article",
+              "label": "Wikipedia-Artikel",
+              "page_start": 1,
+              "page_end": 1
+            }
+          ],
+          "physical_structure": {
+            "total_pages": 1,
+            "page_sequence": [1],
+            "missing_pages": [],
+            "blank_pages": []
+          }
+        },
+        "mets_info": {
+          "mets_version": null,
+          "profile": null,
+          "creation_date": "2025-07-04",
+          "last_modified": "2025-07-04",
+          "creator_software": "Wikipedia",
+          "file_location": null
+        },
+        "quality_control": {
+          "completeness_check": "complete",
+          "quality_assessment": "good",
+          "validation_status": "valid",
+          "notes": []
+        }
+      },
+      "files": {
+        "master_images": [],
+        "derivative_images": [],
+        "text_files": [],
+        "other_files": []
+      },
+      "processing": {
+        "extraction_date": "2025-07-04T10:00:00Z",
+        "extraction_software": "wikipedia_parser",
+        "validation_errors": [],
+        "warnings": []
+      }
     }
-  },
-  "mets_info": {
-    "mets_version": "1.12",
-    "profile": "http://www.loc.gov/mets/profiles/...",
-    "creation_date": null,
-    "last_modified": null,
-    "creator_software": null,
-    "file_location": "https://digi.ub.uni-heidelberg.de/diglitData/mets/dehio1906bd2.xml"
-  },
-  "quality_control": {
-    "completeness_check": null,
-    "quality_assessment": null,
-    "validation_status": null,
-    "notes": []
-  }
-},
-"files": {
-  "master_images": [],
-  "derivative_images": [],
-  "text_files": [],
-  "other_files": []
-},
-"processing": {
-  "extraction_date": "2025-05-30T10:00:00Z",
-  "extraction_software": "custom_mets_parser",
-  "validation_errors": [],
-  "warnings": []
-    }
-}
-}
-}
-]
+  ]
 }
