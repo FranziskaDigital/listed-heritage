@@ -196,7 +196,6 @@ function displayObjectList(objects) {
             <h4>${obj.name}</h4>
             <p>${obj.address}</p>
             <small>${obj.category || 'Kategorie unbekannt'}</small>
-            ${obj.model3D ? '<span class="model-indicator">🏛️ 3D</span>' : ''}
         </div>
     `).join('');
     
@@ -254,70 +253,9 @@ function setupEventListeners() {
     document.getElementById('search').addEventListener('input', function(e) {
         searchObjects(e.target.value);
     });
-    
-    // 3D-Viewer Event Listeners
-    setup3DViewerListeners();
 }
 
-// 3D-Viewer Event Listeners
-function setup3DViewerListeners() {
-    const showImagesBtn = document.getElementById('show-images');
-    const show3DBtn = document.getElementById('show-3d');
-    const imagesContainer = document.getElementById('images-container');
-    const modelViewer = document.getElementById('model-viewer');
-    
-    if (showImagesBtn) {
-        showImagesBtn.addEventListener('click', function() {
-            showImagesBtn.classList.add('active');
-            show3DBtn.classList.remove('active');
-            imagesContainer.style.display = 'block';
-            modelViewer.style.display = 'none';
-        });
-    }
-    
-    if (show3DBtn) {
-        show3DBtn.addEventListener('click', function() {
-            show3DBtn.classList.add('active');
-            showImagesBtn.classList.remove('active');
-            imagesContainer.style.display = 'none';
-            modelViewer.style.display = 'block';
-            
-            // 3D-Viewer initialisieren, wenn noch nicht geschehen
-            if (window.ThreeViewer && !window.ThreeViewer.isInitialized) {
-                window.ThreeViewer.initializeViewer();
-            }
-        });
-    }
-}
-
-// Prüfen ob 3D-Modell verfügbar ist
-function has3DModel(obj) {
-    return obj.model3D || obj.model || obj.threeDModel;
-}
-
-// 3D-Modell-Pfad extrahieren
-function get3DModelPath(obj, inventoryId) {
-    if (obj.model3D) {
-        // Wenn vollständiger Pfad oder URL
-        if (obj.model3D.startsWith('http') || obj.model3D.startsWith('/')) {
-            return obj.model3D;
-        }
-        // Relativer Pfad
-        return `models/${inventoryId}/${obj.model3D}`;
-    }
-    
-    if (obj.model) {
-        return obj.model.startsWith('http') ? obj.model : `models/${inventoryId}/${obj.model}`;
-    }
-    
-    if (obj.threeDModel) {
-        return obj.threeDModel.startsWith('http') ? obj.threeDModel : `models/${inventoryId}/${obj.threeDModel}`;
-    }
-    
-    return null;
-}
-
-// Objektdetails anzeigen (erweiterte Version)
+// Objektdetails anzeigen
 function showObjectDetail(objectId, inventoryId) {
     const objects = allObjects[inventoryId];
     const obj = objects.find(o => o.id === objectId);
@@ -325,10 +263,6 @@ function showObjectDetail(objectId, inventoryId) {
     
     const inventory = inventories.find(inv => inv.id === inventoryId);
     const basePath = `images/${inventory.imageFolder}`;
-    
-    // Prüfen ob 3D-Modell verfügbar
-    const hasModel = has3DModel(obj);
-    const modelPath = hasModel ? get3DModelPath(obj, inventoryId) : null;
     
     // Bilder-Array normalisieren
     const images = Array.isArray(obj.images) ? obj.images : [obj.images];
@@ -340,84 +274,58 @@ function showObjectDetail(objectId, inventoryId) {
         <h2>${obj.name}</h2>
         <p><strong>Adresse:</strong> ${obj.address}</p>
         
-        <!-- View Toggle Buttons -->
-        <div class="view-toggle">
-            <button id="show-images" class="active">📷 Bilder</button>
-            ${hasModel ? '<button id="show-3d">🏛️ 3D-Modell</button>' : ''}
+        <div class="images-gallery">
+            ${images.map(img => 
+                `<img src="${img.startsWith('http') ? img : 'images/objects/' + img}" alt="${obj.name}" onerror="this.style.display='none'"`
+            ).join('')}
         </div>
         
-        <!-- Bilder Container -->
-        <div id="images-container">
-            <div class="images-gallery">
-                ${images.map(img => 
-                    `<img src="${img.startsWith('http') ? img : 'images/objects/' + img}" alt="${obj.name}" onerror="this.style.display='none'"`
-                ).join('')}
-            </div>
-            
-            ${obj.grundriss ? `
-                <div class="grundriss-section">
-                    <h3>Grundriss</h3>
-                    <img src="images/${obj.grundriss}" 
-                         alt="Grundriss ${obj.name}" 
-                         class="grundriss-image"
-                         onerror="this.style.display='none'">
-                </div>
-            ` : ''}
-            
-            ${obj.faksimile ? `
-                <div class="faksimile-section">
-                    <h3>Originalseite ${obj.faksimile.page || ''}</h3>
-                    
-                    ${obj.faksimile.local ? `
-                        ${Array.isArray(obj.faksimile.local) ? 
-                            obj.faksimile.local.map(faks => {
-                                const imageSrc = faks.startsWith('http') ? faks : `images/facsimiles/${faks}${faks.endsWith('.jpg') ? '' : '.jpg'}`;
-                                return `<img src="${imageSrc}" 
-                                            alt="Faksimile ${obj.name}" 
-                                            class="faksimile-image"
-                                            onerror="this.style.display='none'">`;
-                            }).join('') :
-                            (() => {
-                                const imageSrc = obj.faksimile.local.startsWith('http') ? obj.faksimile.local : `images/facsimiles/${obj.faksimile.local}${obj.faksimile.local.endsWith('.jpg') ? '' : '.jpg'}`;
-                                return `<img src="${imageSrc}" 
-                                            alt="Faksimile ${obj.name}" 
-                                            class="faksimile-image"
-                                            onerror="this.style.display='none'">`;
-                            })()
-                        }
-                    ` : ''}
-                    
-                    ${obj.faksimile.external && obj.faksimile.external.url ? `
-                        <div class="external-links">
-                            <h4>Externe Faksimile-Links:</h4>
-                            ${Array.isArray(obj.faksimile.external.url) ?
-                                obj.faksimile.external.url.map(url => 
-                                    `<a href="${url}" target="_blank">→ Faksimile anzeigen</a>`
-                                ).join('<br>') :
-                                `<a href="${obj.faksimile.external.url}" target="_blank">→ Faksimile anzeigen</a>`
-                            }
-                        </div>
-                    ` : ''}
-                </div>
-            ` : ''}
-        </div>
-        
-        <!-- 3D-Modell Container -->
-        ${hasModel ? `
-            <div id="model-viewer" style="display: none;">
-                <div class="loading-indicator" id="loading-indicator">
-                    <p>3D-Modell wird geladen...</p>
-                </div>
-                <div class="model-controls">
-                    <button id="reset-view" title="Ansicht zurücksetzen">🔄</button>
-                    <button id="wireframe-toggle" title="Wireframe an/aus">📐</button>
-                    <button id="fullscreen-toggle" title="Vollbild">⛶</button>
-                </div>
-                <div class="model-info" id="model-info">
-                    Maus: Drehen | Scrollrad: Zoomen | Rechtsklick: Verschieben
-                </div>
+        ${obj.grundriss ? `
+            <div class="grundriss-section">
+                <h3>Grundriss</h3>
+                <img src="images/${obj.grundriss}" 
+                     alt="Grundriss ${obj.name}" 
+                     class="grundriss-image"
+                     onerror="this.style.display='none'">
             </div>
         ` : ''}
+        
+        ${obj.faksimile ? `
+    <div class="faksimile-section">
+        <h3>Originalseite ${obj.faksimile.page || ''}</h3>
+        
+        ${obj.faksimile.local ? `
+            ${Array.isArray(obj.faksimile.local) ? 
+                obj.faksimile.local.map(faks => {
+                    const imageSrc = faks.startsWith('http') ? faks : `images/facsimiles/${faks}${faks.endsWith('.jpg') ? '' : '.jpg'}`;
+                    return `<img src="${imageSrc}" 
+                                alt="Faksimile ${obj.name}" 
+                                class="faksimile-image"
+                                onerror="this.style.display='none'">`;
+                }).join('') :
+                (() => {
+                    const imageSrc = obj.faksimile.local.startsWith('http') ? obj.faksimile.local : `images/facsimiles/${obj.faksimile.local}${obj.faksimile.local.endsWith('.jpg') ? '' : '.jpg'}`;
+                    return `<img src="${imageSrc}" 
+                                alt="Faksimile ${obj.name}" 
+                                class="faksimile-image"
+                                onerror="this.style.display='none'">`;
+                })()
+            }
+        ` : ''}
+        
+        ${obj.faksimile.external && obj.faksimile.external.url ? `
+            <div class="external-links">
+                <h4>Externe Faksimile-Links:</h4>
+                ${Array.isArray(obj.faksimile.external.url) ?
+                    obj.faksimile.external.url.map(url => 
+                        `<a href="${url}" target="_blank">→ Faksimile anzeigen</a>`
+                    ).join('<br>') :
+                    `<a href="${obj.faksimile.external.url}" target="_blank">→ Faksimile anzeigen</a>`
+                }
+            </div>
+        ` : ''}
+    </div>
+` : ''}
         
         <div class="description">
             <h3>Beschreibung</h3>
@@ -426,22 +334,10 @@ function showObjectDetail(objectId, inventoryId) {
         
         ${obj.category ? `<p><strong>Kategorie:</strong> ${obj.category}</p>` : ''}
         ${obj.period ? `<p><strong>Epoche:</strong> ${obj.period}</p>` : ''}
-        ${hasModel ? `<p><strong>3D-Modell:</strong> Verfügbar</p>` : ''}
     `;
     
     document.getElementById('detail-content').innerHTML = detailHtml;
     document.getElementById('detail-view').classList.remove('hidden');
-    
-    // Event Listeners für die neuen Buttons einrichten
-    setup3DViewerListeners();
-    
-    // 3D-Modell laden wenn verfügbar
-    if (hasModel && window.ThreeViewer && modelPath) {
-        // Verzögerung um sicherzustellen, dass DOM bereit ist
-        setTimeout(() => {
-            window.ThreeViewer.loadModel(modelPath);
-        }, 100);
-    }
     
     // Zum Marker auf der Karte zoomen
     map.setView(obj.coordinates, 16);
